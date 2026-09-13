@@ -1,0 +1,1607 @@
+Absolutely — here is a complete **GameZone.Chirag** HTML file with **20 games**, a gaming-style homepage, responsive design, and playable games.
+
+ Copy everything into **Notepad → save as `index.html` → open it in Chrome**.
+
+```
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GameZone.Chirag 🎮</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    min-height:100vh;
+    color:white;
+    background:
+      radial-gradient(circle at top,#35106b 0,#110027 35%,#05000d 100%);
+}
+
+header{
+    text-align:center;
+    padding:35px 15px 25px;
+    background:rgba(0,0,0,.35);
+    border-bottom:2px solid #8a2be2;
+}
+
+.logo{
+    font-size:45px;
+    font-weight:900;
+    color:#00f7ff;
+    text-shadow:
+      0 0 5px #00f7ff,
+      0 0 15px #00f7ff,
+      0 0 30px #8a2be2;
+}
+
+.logo span{
+    color:#ff28d7;
+}
+
+.subtitle{
+    margin-top:8px;
+    color:#ddd;
+}
+
+.container{
+    width:min(1150px,94%);
+    margin:auto;
+    padding:25px 0 50px;
+}
+
+.search{
+    width:100%;
+    max-width:550px;
+    display:block;
+    margin:0 auto 25px;
+    padding:15px 20px;
+    border-radius:30px;
+    border:2px solid #713cff;
+    outline:none;
+    background:#130c25;
+    color:white;
+    font-size:17px;
+}
+
+.games{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
+    gap:18px;
+}
+
+.game-card{
+    background:linear-gradient(145deg,#20103d,#100a20);
+    border:1px solid #6332a8;
+    border-radius:20px;
+    padding:24px 15px;
+    text-align:center;
+    cursor:pointer;
+    transition:.25s;
+    box-shadow:0 5px 20px rgba(0,0,0,.35);
+}
+
+.game-card:hover{
+    transform:translateY(-7px);
+    border-color:#00f7ff;
+    box-shadow:0 0 25px rgba(0,247,255,.3);
+}
+
+.icon{
+    font-size:48px;
+}
+
+.game-card h3{
+    margin-top:12px;
+}
+
+#gameScreen{
+    display:none;
+    text-align:center;
+}
+
+.panel{
+    margin:20px auto;
+    max-width:700px;
+    background:rgba(10,5,25,.9);
+    border:1px solid #713cff;
+    border-radius:22px;
+    padding:30px 20px;
+    box-shadow:0 0 30px rgba(113,60,255,.2);
+}
+
+button{
+    border:0;
+    border-radius:12px;
+    padding:12px 20px;
+    margin:7px;
+    background:linear-gradient(90deg,#00d9ff,#8a2be2);
+    color:white;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+button:hover{
+    transform:scale(1.04);
+}
+
+input{
+    padding:12px;
+    border-radius:10px;
+    border:1px solid #7c4dff;
+    background:#0b0714;
+    color:white;
+    font-size:16px;
+    outline:none;
+}
+
+.back{
+    background:#ff176f;
+}
+
+.big{
+    font-size:70px;
+    margin:15px;
+}
+
+#board{
+    display:grid;
+    grid-template-columns:repeat(3,90px);
+    gap:7px;
+    justify-content:center;
+    margin:20px auto;
+}
+
+.cell{
+    height:90px;
+    background:#18102d;
+    border:1px solid #6332a8;
+    border-radius:12px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:45px;
+    cursor:pointer;
+}
+
+.memory{
+    display:grid;
+    grid-template-columns:repeat(4,75px);
+    gap:9px;
+    justify-content:center;
+}
+
+.memory-card{
+    width:75px;
+    height:75px;
+    background:#24134b;
+    border:1px solid #7040bd;
+    border-radius:12px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:32px;
+    cursor:pointer;
+}
+
+#clickBox{
+    width:230px;
+    height:230px;
+    margin:20px auto;
+    border-radius:25px;
+    background:#ff1680;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:28px;
+    cursor:pointer;
+}
+
+#reactionBox{
+    width:300px;
+    height:180px;
+    margin:20px auto;
+    border-radius:20px;
+    background:#333;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:24px;
+    cursor:pointer;
+}
+
+.choice{
+    font-size:50px;
+    cursor:pointer;
+    margin:12px;
+}
+
+canvas{
+    max-width:100%;
+    border-radius:12px;
+}
+
+#maze{
+    display:grid;
+    grid-template-columns:repeat(8,38px);
+    justify-content:center;
+    gap:2px;
+    margin:20px auto;
+}
+
+.wall,.floor,.player,.goal{
+    width:38px;
+    height:38px;
+}
+
+.wall{background:#090909}
+.floor{background:#eee}
+.player{background:#00e676}
+.goal{background:#ffe600}
+
+footer{
+    text-align:center;
+    padding:25px;
+    color:#aaa;
+    border-top:1px solid #241442;
+}
+
+@media(max-width:500px){
+    .logo{font-size:32px}
+    #board{grid-template-columns:repeat(3,75px)}
+    .cell{height:75px}
+    .memory{grid-template-columns:repeat(4,62px)}
+    .memory-card{width:62px;height:62px}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">🎮 GameZone<span>.Chirag</span></div>
+    <p class="subtitle">20 Games • One Website • Endless Fun!</p>
+</header>
+
+<div class="container">
+
+<input
+    class="search"
+    id="search"
+    placeholder="🔎 Search games..."
+    oninput="searchGames()"
+>
+
+<div class="games" id="games">
+
+<div class="game-card" data-name="number guess" onclick="start('guess')">
+<div class="icon">🔢</div><h3>Number Guess</h3>
+</div>
+
+<div class="game-card" data-name="rock paper scissors" onclick="start('rps')">
+<div class="icon">✊</div><h3>Rock Paper Scissors</h3>
+</div>
+
+<div class="game-card" data-name="tic tac toe" onclick="start('ttt')">
+<div class="icon">❌</div><h3>Tic Tac Toe</h3>
+</div>
+
+<div class="game-card" data-name="click challenge" onclick="start('click')">
+<div class="icon">👆</div><h3>Click Challenge</h3>
+</div>
+
+<div class="game-card" data-name="reaction test" onclick="start('reaction')">
+<div class="icon">⚡</div><h3>Reaction Test</h3>
+</div>
+
+<div class="game-card" data-name="memory match" onclick="start('memory')">
+<div class="icon">🧠</div><h3>Memory Match</h3>
+</div>
+
+<div class="game-card" data-name="dice roll" onclick="start('dice')">
+<div class="icon">🎲</div><h3>Dice Roll</h3>
+</div>
+
+<div class="game-card" data-name="coin flip" onclick="start('coin')">
+<div class="icon">🪙</div><h3>Coin Flip</h3>
+</div>
+
+<div class="game-card" data-name="math quiz" onclick="start('math')">
+<div class="icon">➕</div><h3>Math Quiz</h3>
+</div>
+
+<div class="game-card" data-name="color guess" onclick="start('color')">
+<div class="icon">🎨</div><h3>Color Guess</h3>
+</div>
+
+<div class="game-card" data-name="snake" onclick="start('snake')">
+<div class="icon">🐍</div><h3>Snake</h3>
+</div>
+
+<div class="game-card" data-name="whack a mole" onclick="start('whack')">
+<div class="icon">🔨</div><h3>Whack a Mole</h3>
+</div>
+
+<div class="game-card" data-name="hangman" onclick="start('hangman')">
+<div class="icon">🔤</div><h3>Hangman</h3>
+</div>
+
+<div class="game-card" data-name="higher lower" onclick="start('higher')">
+<div class="icon">⬆️</div><h3>Higher or Lower</h3>
+</div>
+
+<div class="game-card" data-name="typing test" onclick="start('typing')">
+<div class="icon">⌨️</div><h3>Typing Test</h3>
+</div>
+
+<div class="game-card" data-name="flappy bird" onclick="start('flappy')">
+<div class="icon">🐦</div><h3>Flappy Bird</h3>
+</div>
+
+<div class="game-card" data-name="maze" onclick="start('maze')">
+<div class="icon">🧩</div><h3>Maze</h3>
+</div>
+
+<div class="game-card" data-name="odd one out" onclick="start('odd')">
+<div class="icon">🔍</div><h3>Odd One Out</h3>
+</div>
+
+<div class="game-card" data-name="fast count" onclick="start('count')">
+<div class="icon">🔢</div><h3>Fast Count</h3>
+</div>
+
+<div class="game-card" data-name="dodge blocks" onclick="start('avoid')">
+<div class="icon">🚀</div><h3>Dodge Blocks</h3>
+</div>
+
+</div>
+
+<div id="gameScreen">
+<button class="back" onclick="home()">⬅ Back to GameZone</button>
+<div id="game"></div>
+</div>
+
+</div>
+
+<footer>
+    © 2026 GameZone.Chirag 🎮 | Play • Have Fun • Repeat
+</footer>
+
+<script>
+
+const game=document.getElementById("game");
+const games=document.getElementById("games");
+const screen=document.getElementById("gameScreen");
+
+function start(type){
+    games.style.display="none";
+    document.getElementById("search").style.display="none";
+    screen.style.display="block";
+    game.innerHTML="";
+    allGames[type]();
+}
+
+function home(){
+    screen.style.display="none";
+    games.style.display="grid";
+    document.getElementById("search").style.display="block";
+}
+
+function searchGames(){
+    let q=document.getElementById("search").value.toLowerCase();
+
+    document.querySelectorAll(".game-card").forEach(card=>{
+        card.style.display=card.dataset.name.includes(q)?"block":"none";
+    });
+}
+
+/* 1 NUMBER GUESS */
+
+function numberGuess(){
+
+let secret=Math.floor(Math.random()*100)+1;
+let attempts=0;
+
+game.innerHTML=`
+<div class="panel">
+<h2>🔢 Number Guess</h2>
+<p>Guess a number from 1 to 100.</p>
+<br>
+<input id="guessInput" type="number">
+<button onclick="guessCheck()">Guess</button>
+<h3 id="guessMsg"></h3>
+</div>`;
+
+window.guessCheck=function(){
+
+let n=Number(document.getElementById("guessInput").value);
+attempts++;
+
+let msg=document.getElementById("guessMsg");
+
+if(n===secret){
+msg.textContent="🎉 Correct! Attempts: "+attempts;
+}else if(n<secret){
+msg.textContent="⬆️ Too low!";
+}else{
+msg.textContent="⬇️ Too high!";
+}
+
+};
+
+}
+
+/* 2 ROCK PAPER SCISSORS */
+
+function rps(){
+
+game.innerHTML=`
+<div class="panel">
+<h2>✊ Rock Paper Scissors</h2>
+
+<div>
+<span class="choice" onclick="rpsPlay('rock')">✊</span>
+<span class="choice" onclick="rpsPlay('paper')">📄</span>
+<span class="choice" onclick="rpsPlay('scissors')">✂️</span>
+</div>
+
+<h3 id="rpsMsg">Choose one!</h3>
+</div>`;
+
+window.rpsPlay=function(player){
+
+let choices=["rock","paper","scissors"];
+let computer=choices[Math.floor(Math.random()*3)];
+
+let result;
+
+if(player===computer){
+result="Draw!";
+}else if(
+(player==="rock"&&computer==="scissors")||
+(player==="paper"&&computer==="rock")||
+(player==="scissors"&&computer==="paper")
+){
+result="🎉 You Win!";
+}else{
+result="🤖 Computer Wins!";
+}
+
+document.getElementById("rpsMsg").innerHTML=
+`You: ${player}<br>Computer: ${computer}<br><br>${result}`;
+
+};
+
+}
+
+/* 3 TIC TAC TOE */
+
+function ttt(){
+
+let board=Array(9).fill("");
+
+game.innerHTML=`
+<div class="panel">
+<h2>❌ Tic Tac Toe</h2>
+<div id="board"></div>
+<h3 id="tttMsg">Your turn</h3>
+<button onclick="start('ttt')">Restart</button>
+</div>`;
+
+let b=document.getElementById("board");
+
+board.forEach((_,i)=>{
+
+let cell=document.createElement("div");
+
+cell.className="cell";
+
+cell.onclick=()=>move(i);
+
+b.appendChild(cell);
+
+});
+
+function win(x){
+
+return [
+[0,1,2],[3,4,5],[6,7,8],
+[0,3,6],[1,4,7],[2,5,8],
+[0,4,8],[2,4,6]
+].some(a=>a.every(i=>board[i]===x));
+
+}
+
+function move(i){
+
+if(board[i])return;
+
+board[i]="X";
+b.children[i].textContent="X";
+
+if(win("X")){
+document.getElementById("tttMsg").textContent="🎉 You Win!";
+return;
+}
+
+if(board.every(Boolean)){
+document.getElementById("tttMsg").textContent="Draw!";
+return;
+}
+
+let empty=board.map((x,i)=>x?null:i)
+.filter(x=>x!==null);
+
+let ai=empty[Math.floor(Math.random()*empty.length)];
+
+board[ai]="O";
+b.children[ai].textContent="O";
+
+if(win("O")){
+document.getElementById("tttMsg").textContent="🤖 Computer Wins!";
+}
+
+}
+
+}
+
+/* 4 CLICK CHALLENGE */
+
+function clickGame(){
+
+let score=0;
+let time=10;
+
+game.innerHTML=`
+<div class="panel">
+<h2>👆 Click Challenge</h2>
+<p>Click as many times as possible in 10 seconds!</p>
+
+<h1 id="clickScore">0</h1>
+
+<div id="clickBox">CLICK!</div>
+
+<h3 id="clickTime">10</h3>
+</div>`;
+
+let box=document.getElementById("clickBox");
+let active=true;
+
+box.onclick=()=>{
+if(active){
+score++;
+document.getElementById("clickScore").textContent=score;
+}
+};
+
+let timer=setInterval(()=>{
+
+time--;
+document.getElementById("clickTime").textContent=time;
+
+if(time<=0){
+active=false;
+clearInterval(timer);
+box.textContent="TIME UP!";
+}
+
+},1000);
+
+}
+
+/* 5 REACTION TEST */
+
+function reaction(){
+
+game.innerHTML=`
+<div class="panel">
+<h2>⚡ Reaction Test</h2>
+<p>Wait for green, then click!</p>
+
+<div id="reactionBox">WAIT...</div>
+
+<h2 id="reactionMsg"></h2>
+</div>`;
+
+let box=document.getElementById("reactionBox");
+let ready=false;
+let startTime;
+
+setTimeout(()=>{
+
+box.style.background="#00c853";
+box.textContent="CLICK!";
+startTime=Date.now();
+ready=true;
+
+},1000+Math.random()*4000);
+
+box.onclick=()=>{
+
+if(!ready){
+document.getElementById("reactionMsg").textContent="❌ Too early!";
+return;
+}
+
+let ms=Date.now()-startTime;
+
+document.getElementById("reactionMsg").textContent=
+"⚡ Reaction: "+ms+" ms";
+
+};
+
+}
+
+/* 6 MEMORY */
+
+function memory(){
+
+let items=["🍎","🍌","🍇","🍉","🍓","🥝","🍎","🍌","🍇","🍉","🍓","🥝"];
+items.sort(()=>Math.random()-.5);
+
+game.innerHTML=`
+<div class="panel">
+<h2>🧠 Memory Match</h2>
+<div class="memory" id="memory"></div>
+<h3 id="memoryMsg">Find all pairs!</h3>
+</div>`;
+
+let first=null;
+let lock=false;
+let matched=0;
+
+items.forEach((item,index)=>{
+
+let card=document.createElement("div");
+card.className="memory-card";
+card.textContent="❓";
+
+card.onclick=()=>{
+
+if(lock || card.dataset.done)return;
+
+card.textContent=item;
+
+if(!first){
+first={card,item};
+return;
+}
+
+if(first.item===item){
+
+card.dataset.done="yes";
+first.card.dataset.done="yes";
+matched++;
+first=null;
+
+if(matched===6){
+document.getElementById("memoryMsg").textContent=
+"🎉 You found all pairs!";
+}
+
+}else{
+
+lock=true;
+
+setTimeout(()=>{
+card.textContent="❓";
+first.card.textContent="❓";
+first=null;
+lock=false;
+},700);
+
+}
+
+};
+
+document.getElementById("memory").appendChild(card);
+
+});
+
+}
+
+/* 7 DICE */
+
+function dice(){
+
+game.innerHTML=`
+<div class="panel">
+<h2>🎲 Dice Roll</h2>
+<div id="dice" class="big">🎲</div>
+<button onclick="rollDice()">ROLL</button>
+</div>`;
+
+window.rollDice=()=>{
+
+let faces=["⚀","⚁","⚂","⚃","⚄","⚅"];
+
+let n=Math.floor(Math.random()*6);
+
+document.getElementById("dice").textContent=faces[n];
+
+};
+
+}
+
+/* 8 COIN */
+
+function coin(){
+
+game.innerHTML=`
+<div class="panel">
+<h2>🪙 Coin Flip</h2>
+<div id="coin" class="big">🪙</div>
+<button onclick="flipCoin()">FLIP</button>
+</div>`;
+
+window.flipCoin=()=>{
+
+document.getElementById("coin").textContent=
+Math.random()<.5?"🟡 HEADS":"⚪ TAILS";
+
+};
+
+}
+
+/* 9 MATH QUIZ */
+
+function math(){
+
+let a,b,answer;
+let score=0;
+
+game.innerHTML=`
+<div class="panel">
+<h2>➕ Math Quiz</h2>
+<h2 id="mathQ"></h2>
+<input id="mathInput" type="number">
+<button onclick="mathAnswer()">Answer</button>
+<h3 id="mathMsg"></h3>
+</div>`;
+
+function newQuestion(){
+
+a=Math.floor(Math.random()*20)+1;
+b=Math.floor(Math.random()*20)+1;
+answer=a+b;
+
+document.getElementById("mathQ").textContent=
+`${a} + ${b} = ?`;
+
+document.getElementById("mathInput").value="";
+
+}
+
+window.mathAnswer=()=>{
+
+if(Number(document.getElementById("mathInput").value)===answer){
+
+score++;
+
+document.getElementById("mathMsg").textContent=
+"✅ Correct! Score: "+score;
+
+}else{
+
+document.getElementById("mathMsg").textContent=
+"❌ Wrong! Answer: "+answer;
+
+}
+
+newQuestion();
+
+};
+
+newQuestion();
+
+}
+
+/* 10 COLOR */
+
+function colorGame(){
+
+let colors=["red","blue","green","yellow","purple","orange"];
+let answer;
+
+game.innerHTML=`
+<div class="panel">
+<h2>🎨 Color Guess</h2>
+<h2 id="colorQuestion"></h2>
+<div id="colorButtons"></div>
+<h3 id="colorMsg"></h3>
+</div>`;
+
+function newColor(){
+
+answer=colors[Math.floor(Math.random()*colors.length)];
+
+document.getElementById("colorQuestion").textContent=
+"Choose "+answer.toUpperCase();
+
+let area=document.getElementById("colorButtons");
+area.innerHTML="";
+
+colors.forEach(color=>{
+
+let button=document.createElement("button");
+
+button.textContent=color;
+button.style.background=color;
+
+if(color==="yellow")button.style.color="black";
+
+button.onclick=()=>{
+
+if(color===answer){
+
+document.getElementById("colorMsg").textContent=
+"🎉 Correct!";
+
+setTimeout(newColor,500);
+
+}else{
+
+document.getElementById("colorMsg").textContent=
+"❌ Try again!";
+
+}
+
+};
+
+area.appendChild(button);
+
+});
+
+}
+
+newColor();
+
+}
+
+/* 11 SNAKE */
+
+function snake(){
+
+game.innerHTML=`
+<div class="panel">
+<h2>🐍 Snake</h2>
+<canvas id="snakeCanvas" width="400" height="400"></canvas>
+<p>Use the arrow keys.</p>
+<button onclick="start('snake')">Restart</button>
+</div>`;
+
+let canvas=document.getElementById("snakeCanvas");
+let ctx=canvas.getContext("2d");
+
+let body=[{x:200,y:200}];
+let food={
+x:Math.floor(Math.random()*20)*20,
+y:Math.floor(Math.random()*20)*20
+};
+
+let dx=20,dy=0;
+let running=true;
+
+document.onkeydown=e=>{
+
+if(e.key==="ArrowUp"&&dy===0){
+dx=0;dy=-20;
+}
+
+if(e.key==="ArrowDown"&&dy===0){
+dx=0;dy=20;
+}
+
+if(e.key==="ArrowLeft"&&dx===0){
+dx=-20;dy=0;
+}
+
+if(e.key==="ArrowRight"&&dx===0){
+dx=20;dy=0;
+}
+
+};
+
+let timer=setInterval(()=>{
+
+if(!running){
+clearInterval(timer);
+return;
+}
+
+let head={
+x:body[0].x+dx,
+y:body[0].y+dy
+};
+
+if(
+head.x<0||
+head.x>=400||
+head.y<0||
+head.y>=400||
+body.some(s=>s.x===head.x&&s.y===head.y)
+){
+
+running=false;
+alert("🐍 Game Over!");
+return;
+
+}
+
+body.unshift(head);
+
+if(head.x===food.x&&head.y===food.y){
+
+food={
+x:Math.floor(Math.random()*20)*20,
+y:Math.floor(Math.random()*20)*20
+};
+
+}else{
+body.pop();
+}
+
+ctx.fillStyle="#071b16";
+ctx.fillRect(0,0,400,400);
+
+ctx.fillStyle="#00ff88";
+
+body.forEach(s=>{
+ctx.fillRect(s.x,s.y,18,18);
+});
+
+ctx.fillStyle="#ff1744";
+ctx.fillRect(food.x,food.y,18,18);
+
+},120);
+
+}
+
+/* 12 WHACK A MOLE */
+
+function whack(){
+
+let score=0;
+let time=20;
+
+game.innerHTML=`
+<div class="panel">
+<h2>🔨 Whack a Mole</h2>
+<h2>Score: <span id="whackScore">0</span></h2>
+<div id="clickBox">🐹</div>
+<h3 id="whackTime">20</h3>
+</div>`;
+
+let box=document.getElementById("clickBox");
+
+box.onclick=()=>{
+
+score++;
+
+document.getElementById("whackScore").textContent=score;
+
+box.textContent="💥";
+
+setTimeout(()=>{
+box.textContent="🐹";
+},250);
+
+};
+
+let timer=setInterval(()=>{
+
+time--;
+
+document.getElementById("whackTime").textContent=time;
+
+if(time<=0){
+
+clearInterval(timer);
+box.textContent="GAME OVER";
+
+}
+
+},1000);
+
+}
+
+/* 13 HANGMAN */
+
+function hangman(){
+
+let words=[
+"JAVASCRIPT",
+"COMPUTER",
+"GAMING",
+"WEBSITE",
+"PUZZLE",
+"CHIRAG"
+];
+
+let word=words[Math.floor(Math.random()*words.length)];
+let guessed=[];
+let wrong=0;
+
+game.innerHTML=`
+<div class="panel">
+<h2>🔤 Hangman</h2>
+<h1 id="hangWord"></h1>
+<p>Wrong: <span id="wrong">0</span>/6</p>
+
+<input id="hangInput" maxlength="1">
+<button onclick="hangGuess()">Guess</button>
+
+<h3 id="hangMsg"></h3>
+</div>`;
+
+function draw(){
+
+document.getElementById("hangWord").textContent=
+word.split("").map(x=>
+guessed.includes(x)?x:"_"
+).join(" ");
+
+}
+
+window.hangGuess=()=>{
+
+let letter=
+document.getElementById("hangInput").value.toUpperCase();
+
+document.getElementById("hangInput").value="";
+
+if(!letter)return;
+
+if(word.includes(letter)){
+guessed.push(letter);
+}else{
+wrong++;
+}
+
+document.getElementById("wrong").textContent=wrong;
+
+draw();
+
+if(word.split("").every(x=>guessed.includes(x))){
+document.getElementById("hangMsg").textContent="🎉 YOU WIN!";
+}
+
+if(wrong>=6){
+document.getElementById("hangMsg").textContent=
+"💀 Word: "+word;
+}
+
+};
+
+draw();
+
+}
+
+/* 14 HIGHER LOWER */
+
+function higher(){
+
+let current=Math.floor(Math.random()*100)+1;
+
+game.innerHTML=`
+<div class="panel">
+<h2>⬆️ Higher or Lower</h2>
+
+<h1 id="higherNum">${current}</h1>
+
+<p>Will the next number be higher or lower?</p>
+
+<button onclick="higherPlay('higher')">⬆️ Higher</button>
+<button onclick="higherPlay('lower')">⬇️ Lower</button>
+
+<h3 id="higherMsg"></h3>
+</div>`;
+
+window.higherPlay=choice=>{
+
+let next=Math.floor(Math.random()*100)+1;
+
+let correct=
+(choice==="higher"&&next>current)||
+(choice==="lower"&&next<current);
+
+document.getElementById("higherMsg").textContent=
+correct?"🎉 Correct!":"❌ Wrong!";
+
+current=next;
+
+document.getElementById("higherNum").textContent=current;
+
+};
+
+}
+
+/* 15 TYPING TEST */
+
+function typing(){
+
+let sentences=[
+"javascript is fun",
+"gamezone chirag",
+"coding is awesome",
+"welcome to gamezone"
+];
+
+let text=sentences[Math.floor(Math.random()*sentences.length)];
+let startTime=null;
+
+game.innerHTML=`
+<div class="panel">
+<h2>⌨️ Typing Test</h2>
+
+<h3>${text}</h3>
+
+<input id="typingInput" placeholder="Type the sentence...">
+
+<h3 id="typingMsg"></h3>
+</div>`;
+
+let input=document.getElementById("typingInput");
+
+input.focus();
+
+input.oninput=()=>{
+
+if(!startTime)startTime=Date.now();
+
+if(input.value===text){
+
+let seconds=(Date.now()-startTime)/1000;
+
+let wpm=Math.round(
+(text.split(" ").length/seconds)*60
+);
+
+document.getElementById("typingMsg").textContent=
+`🎉 Finished! ${wpm} WPM`;
+
+}
+
+};
+
+}
+
+/* 16 FLAPPY */
+
+function flappy(){
+
+game.innerHTML=`
+<div class="panel">
+<h2>🐦 Flappy Bird</h2>
+<canvas id="flappyCanvas" width="400" height="500"></canvas>
+<p>Press SPACE or click the game.</p>
+<button onclick="start('flappy')">Restart</button>
+</div>`;
+
+let c=document.getElementById("flappyCanvas");
+let ctx=c.getContext("2d");
+
+let bird={x:80,y:250,v:0};
+let pipes=[];
+let score=0;
+let frame=0;
+let dead=false;
+
+function jump(){
+if(!dead)bird.v=-7;
+}
+
+document.onkeydown=e=>{
+if(e.code==="Space")jump();
+};
+
+c.onclick=jump;
+
+function loop(){
+
+if(dead)return;
+
+frame++;
+
+bird.v+=.35;
+bird.y+=bird.v;
+
+if(frame%100===0){
+
+let top=50+Math.random()*220;
+
+pipes.push({
+x:400,
+top:top,
+gap:150
+});
+
+}
+
+pipes.forEach(p=>p.x-=2);
+
+pipes.forEach(p=>{
+
+if(
+bird.x+15>p.x &&
+bird.x-15<p.x+50 &&
+(
+bird.y-15<p.top ||
+bird.y+15>p.top+p.gap
+)
+){
+dead=true;
+}
+
+});
+
+if(bird.y<0||bird.y>500)dead=true;
+
+ctx.fillStyle="#72d7ff";
+ctx.fillRect(0,0,400,500);
+
+ctx.fillStyle="#27ae60";
+
+pipes.forEach(p=>{
+
+ctx.fillRect(p.x,0,50,p.top);
+
+ctx.fillRect(
+p.x,
+p.top+p.gap,
+50,
+500
+);
+
+});
+
+ctx.fillStyle="#ffe600";
+
+ctx.beginPath();
+ctx.arc(bird.x,bird.y,15,0,Math.PI*2);
+ctx.fill();
+
+ctx.fillStyle="black";
+ctx.font="22px Arial";
+ctx.fillText("Score: "+score,10,30);
+
+pipes.forEach(p=>{
+
+if(!p.counted&&p.x<80){
+p.counted=true;
+score++;
+}
+
+});
+
+if(!dead){
+requestAnimationFrame(loop);
+}else{
+
+ctx.fillStyle="red";
+ctx.font="35px Arial";
+ctx.fillText("GAME OVER",105,250);
+
+}
+
+}
+
+loop();
+
+}
+
+/* 17 MAZE */
+
+function maze(){
+
+let map=[
+"########",
+"#......#",
+"#.####.#",
+"#....#.#",
+"####.#.#",
+"#....#.#",
+"#.####.#",
+"#......#"
+];
+
+let px=1;
+let py=1;
+
+game.innerHTML=`
+<div class="panel">
+<h2>🧩 Maze</h2>
+<div id="maze"></div>
+<p>Reach the yellow square.</p>
+</div>`;
+
+function draw(){
+
+let area=document.getElementById("maze");
+
+area.innerHTML="";
+
+map.forEach((row,y)=>{
+
+row.split("").forEach((value,x)=>{
+
+let div=document.createElement("div");
+
+if(value==="#"){
+div.className="wall";
+}else if(x===px&&y===py){
+div.className="player";
+}else if(x===6&&y===6){
+div.className="goal";
+}else{
+div.className="floor";
+}
+
+area.appendChild(div);
+
+});
+
+});
+
+}
+
+document.onkeydown=e=>{
+
+let nx=px;
+let ny=py;
+
+if(e.key==="ArrowUp")ny--;
+if(e.key==="ArrowDown")ny++;
+if(e.key==="ArrowLeft")nx--;
+if(e.key==="ArrowRight")nx++;
+
+if(map[ny]&&map[ny][nx]!=="#"){
+px=nx;
+py=ny;
+draw();
+}
+
+if(px===6&&py===6){
+alert("🎉 Maze Complete!");
+}
+
+};
+
+draw();
+
+}
+
+/* 18 ODD ONE OUT */
+
+function odd(){
+
+game.innerHTML=`
+<div class="panel">
+<h2>🔍 Odd One Out</h2>
+<p>Find the different emoji!</p>
+<div id="odd" style="font-size:45px"></div>
+<h3 id="oddMsg"></h3>
+</div>`;
+
+let oddIndex=Math.floor(Math.random()*16);
+
+let area=document.getElementById("odd");
+
+for(let i=0;i<16;i++){
+
+let span=document.createElement("span");
+
+span.textContent=i===oddIndex?"🍎":"🍏";
+
+span.style.margin="8px";
+span.style.cursor="pointer";
+
+span.onclick=()=>{
+
+document.getElementById("oddMsg").textContent=
+i===oddIndex?"🎉 Correct!":"❌ Try again!";
+
+};
+
+area.appendChild(span);
+
+if(i%4===3){
+area.appendChild(document.createElement("br"));
+}
+
+}
+
+}
+
+/* 19 FAST COUNT */
+
+function countGame(){
+
+let amount=Math.floor(Math.random()*20)+1;
+
+game.innerHTML=`
+<div class="panel">
+<h2>🔢 Fast Count</h2>
+<p>How many stars are there?</p>
+
+<div style="font-size:30px;word-break:break-all" id="stars"></div>
+
+<input id="countInput" type="number">
+
+<button onclick="countAnswer()">Answer</button>
+
+<h3 id="countMsg"></h3>
+</div>`;
+
+document.getElementById("stars").textContent=
+"⭐".repeat(amount);
+
+window.countAnswer=()=>{
+
+let answer=Number(
+document.getElementById("countInput").value
+);
+
+document.getElementById("countMsg").textContent=
+answer===amount?"🎉 Correct!":"❌ Wrong!";
+
+};
+
+}
+
+/* 20 DODGE BLOCKS */
+
+function avoid(){
+
+game.innerHTML=`
+<div class="panel">
+<h2>🚀 Dodge Blocks</h2>
+
+<canvas id="avoidCanvas" width="400" height="400"></canvas>
+
+<p>Move using ← →</p>
+
+<button onclick="start('avoid')">Restart</button>
+</div>`;
+
+let c=document.getElementById("avoidCanvas");
+let ctx=c.getContext("2d");
+
+let player={
+x:180,
+y:350,
+w:40,
+h:20
+};
+
+let blocks=[];
+let keys={};
+let score=0;
+let dead=false;
+
+document.onkeydown=e=>keys[e.key]=true;
+document.onkeyup=e=>keys[e.key]=false;
+
+function loop(){
+
+if(dead)return;
+
+if(keys["ArrowLeft"])player.x-=5;
+if(keys["ArrowRight"])player.x+=5;
+
+player.x=Math.max(
+0,
+Math.min(360,player.x)
+);
+
+if(Math.random()<.035){
+
+blocks.push({
+x:Math.random()*370,
+y:-30,
+w:30,
+h:30
+});
+
+}
+
+blocks.forEach(b=>b.y+=4);
+
+blocks.forEach(b=>{
+
+if(
+player.x<b.x+b.w &&
+player.x+player.w>b.x &&
+player.y<b.y+b.h &&
+player.y+player.h>b.y
+){
+dead=true;
+}
+
+});
+
+ctx.fillStyle="#050510";
+ctx.fillRect(0,0,400,400);
+
+ctx.fillStyle="#00e5ff";
+ctx.fillRect(
+player.x,
+player.y,
+player.w,
+player.h
+);
+
+ctx.fillStyle="#ff1744";
+
+blocks.forEach(b=>{
+ctx.fillRect(b.x,b.y,b.w,b.h);
+});
+
+score++;
+
+ctx.fillStyle="white";
+ctx.font="20px Arial";
+ctx.fillText("Score: "+score,10,25);
+
+if(!dead){
+requestAnimationFrame(loop);
+}else{
+
+ctx.fillStyle="red";
+ctx.font="35px Arial";
+ctx.fillText("GAME OVER",105,200);
+
+}
+
+}
+
+loop();
+
+}
+
+/* GAME LIST */
+
+const allGames={
+
+guess:numberGuess,
+rps:rps,
+ttt:ttt,
+click:clickGame,
+reaction:reaction,
+memory:memory,
+dice:dice,
+coin:coin,
+math:math,
+color:colorGame,
+snake:snake,
+whack:whack,
+hangman:hangman,
+higher:higher,
+typing:typing,
+flappy:flappy,
+maze:maze,
+odd:odd,
+count:countGame,
+avoid:avoid
+
+};
+
+</script>
+
+</body>
+</html>
+```
+
+ ### How to put it online
+
+ After testing it on your computer, you can publish the `index.html` file using a web-hosting service. If you want the address to be something like **`gamezone.chirag...`**, you'll also need to register a domain name (if that exact domain is available) and connect it to your hosting.
+
+ If you'd like, I can next make **GameZone.Chirag V2** with **login/signup, coins, levels, sound effects, leaderboard, game categories, and a professional gaming dashboard**.
